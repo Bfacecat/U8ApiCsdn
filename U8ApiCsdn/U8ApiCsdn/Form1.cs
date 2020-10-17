@@ -36,6 +36,7 @@ namespace U8ApiCsdn
                 U8Login.clsLogin u8login = GetU8Login(sSubId, sAccId, sYear, sUserId, sPassword, sDate, sServer, sSerial);
                 string DbName = u8login.UfDbName;
                 string UserName = u8login.cUserName;
+                u8login.ShutDown();
             }
             catch(Exception ex)
             {
@@ -75,6 +76,57 @@ namespace U8ApiCsdn
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void btnVerifyOtherin_Click(object sender, EventArgs e)
+        {
+            ADODB.Connection con = null;
+            try
+            {
+
+                string sSubId = "ST";
+                string sAccId = "002";
+                string sYear = "2020";
+                string sUserId = "demo";
+                string sPassword = "123456";
+                string sServer = "127.0.0.1";
+                string sSerial = "";
+                string Msg = "";
+                string VouchId = "1000000030";
+                string sDate = DateTime.Now.ToString("yyyy-MM-dd");
+                U8Login.clsLogin u8login = GetU8Login(sSubId, sAccId, sYear, sUserId, sPassword, sDate, sServer, sSerial);
+                con = new ADODB.Connection();
+                con.ConnectionString = u8login.UfDbName;
+                con.Open();
+                con.BeginTrans();
+                //初始化co接口
+                var VCO = new USERPCO.VoucherCO();
+                VCO.IniLogin(u8login, ref Msg);
+                if (!string.IsNullOrEmpty(Msg))
+                {
+                    throw new Exception(Msg);
+                }
+                object TimeStamp = null;
+                MSXML2.IXMLDOMDocument2 domMsg = new MSXML2.DOMDocumentClass();
+                bool bCheck = true, bBeforCheckStock = true, bList = false;
+                bool bsuccess = VCO.Verify("08", VouchId, ref Msg, ref con, ref TimeStamp, ref domMsg, ref bCheck, ref bBeforCheckStock, ref bList);
+                string errxml = domMsg.xml;
+                if (!string.IsNullOrEmpty(Msg))
+                {
+                    throw new Exception(Msg);
+                }
+                con.CommitTrans();
+            }
+            catch (Exception ex)
+            {
+                con.RollbackTrans();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+                con.Close();
             }
         }
 

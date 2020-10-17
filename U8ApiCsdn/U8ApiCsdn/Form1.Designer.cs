@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btnGetLogin = new System.Windows.Forms.Button();
+            this.btnVerifyOtherin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnGetLogin
@@ -41,11 +42,22 @@
             this.btnGetLogin.UseVisualStyleBackColor = true;
             this.btnGetLogin.Click += new System.EventHandler(this.btnGetLogin_Click);
             // 
+            // btnVerifyOtherin
+            // 
+            this.btnVerifyOtherin.Location = new System.Drawing.Point(24, 84);
+            this.btnVerifyOtherin.Name = "btnVerifyOtherin";
+            this.btnVerifyOtherin.Size = new System.Drawing.Size(146, 42);
+            this.btnVerifyOtherin.TabIndex = 1;
+            this.btnVerifyOtherin.Text = "审核其他入库单";
+            this.btnVerifyOtherin.UseVisualStyleBackColor = true;
+            this.btnVerifyOtherin.Click += new System.EventHandler(this.btnVerifyOtherin_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(534, 279);
+            this.Controls.Add(this.btnVerifyOtherin);
             this.Controls.Add(this.btnGetLogin);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -56,6 +68,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnGetLogin;
+        private System.Windows.Forms.Button btnVerifyOtherin;
     }
 }
 
